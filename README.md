@@ -40,29 +40,27 @@ Below are some specifications and core concepts on how the new GetTor works.
 using the ConfigParser format (RFC 882). A sample link file should look like
 this:
 
---- BEGIN FILE ---
+```INI
+[provider]
+name = CoolCloudProvider
 
-  [provider]
-  name = CoolCloudProvider
+[key]
+fingerprint = AAAA BBBB CCCC DDDD EEEE FFFF GGGG HHHH IIII JJJJ
 
-  [key]
-  fingerprint = AAAA BBBB CCCC DDDD EEEE FFFF GGGG HHHH IIII JJJJ
-
-  [linux]
-  en = Package (64-bit): https://cool.cloud.link64
+[linux]
+en = Package (64-bit): https://cool.cloud.link64
 	ASC signature (64-bit): https://cool.cloud.link64.asc
 	Package SHA256 checksum (64-bit): superhash64,
 	Package (32-bit): https://cool.cloud.link32
 	ASC signature (32-bit): https://cool.cloud.link32.asc
 	Package SHA256 checksum (32-bit): superhash32
 
-  [windows]
-  ...
+[windows]
+...
 
-  [osx]
-  ...
-
---- END FILE ---
+[osx]
+...
+```
 
 You can also check providers/dropbox.links for a better example.
 
@@ -115,7 +113,7 @@ If you have ideas to improve GetTor and/or add new providers, please tell us!
 I'm currently the lead developer on this, so if you have any comments/doubts/
 ideas you can send me an e-mail to ilv _at_ riseup _dot_ net or ping me (ilv),
 or sukhe or mrphs at #tor-dev in the OFTC IRC network. For openning tickets you
-should use the trac[0] and select the GetTor component. Some neat ideas we
+should use the [trac][0] and select the GetTor component. Some neat ideas we
 could use are the following:
 
  * Report bugs!
@@ -126,9 +124,9 @@ providers.txt
  * Propose code/behaviour improvements.
  * Update the specs.
 
-
+<!--
 References
 ===========
-
-[0] https://trac.torproject.org/projects/tor/query?status=accepted&status=assigned&status=needs_information&status=needs_review&status=needs_revision&status=new&status=reopened&component=GetTor&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority
+-->
+[0]: https://trac.torproject.org/projects/tor/query?status=accepted&status=assigned&status=needs_information&status=needs_review&status=needs_revision&status=new&status=reopened&component=GetTor&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority
 
