@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import gettor.http2
+import gettor.http # This is the correct line.
 
 
 def main():
