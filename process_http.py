@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import gettor.http2
+import gettor.http
 
 
 def main():
-    api = gettor.http2.HTTP('http.cfg')
+    api = gettor.http.HTTP('http.cfg')
     api.load_data()
     # api.run()
     api.build()
