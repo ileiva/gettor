@@ -48,11 +48,11 @@ def main():
                 " locale TEXT, channel TEXT, PRIMARY KEY (date, channel))"
             )
 
-        print "Database %s created" % os.path.abspath(args.create)
+        print("Database %s created" % os.path.abspath(args.create))
     elif args.delete:
         os.remove(os.path.abspath(args.delete))
-        print "Database %s deleted" % os.path.abspath(args.delete)
+        print("Database %s deleted" % os.path.abspath(args.delete))
     else:
-        print "See --help for details on usage."
+        print("See --help for details on usage.")
 if __name__ == "__main__":
     main()

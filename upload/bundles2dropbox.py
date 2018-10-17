@@ -14,7 +14,7 @@ import re
 import os
 import gnupg
 import hashlib
-import ConfigParser
+import configparser
 
 import dropbox
 import gettor.core
@@ -70,20 +70,20 @@ def upload_files(basedir, client):
         while uploader.offset < size:
             try:
                 upload = uploader.upload_chunked()
-            except dropbox.rest.ErrorResponse, e:
-                print("An error ocurred while uploading %s: %s" % abs_file, e)
+            except dropbox.rest.ErrorResponse as e:
+                print(("An error ocurred while uploading %s: %s" % abs_file, e))
         uploader.finish(file)
-        print "Uploading %s" % file
+        print("Uploading %s" % file)
 
         # this should be small, upload it simple
         to_upload_asc = open(abs_asc, 'rb')
         response = client.put_file(asc, to_upload_asc)
-        print "Uploading %s" % asc
+        print("Uploading %s" % asc)
 
     return files
 
 if __name__ == '__main__':
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read('dropbox.cfg')
 
     app_key = config.get('app', 'key')
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     # make groups of four characters to make fingerprint more readable
     # e.g. 123A 456B 789C 012D 345E 678F 901G 234H 567I 890J
-    readable = ' '.join(fp[i:i+4] for i in xrange(0, len(fp), 4))
+    readable = ' '.join(fp[i:i+4] for i in range(0, len(fp), 4))
 
     try:
         uploaded_files = upload_files(upload_dir, client)
@@ -130,9 +130,9 @@ if __name__ == '__main__':
             # build links
             link_file = client.share(file, short_url=False)
             # if someone finds how to do this with the API, please tell me!
-            link_file[u'url'] = link_file[u'url'].replace('?dl=0', '?dl=1')
+            link_file['url'] = link_file['url'].replace('?dl=0', '?dl=1')
             link_asc = client.share(asc, short_url=False)
-            link_asc[u'url'] = link_asc[u'url'].replace('?dl=0', '?dl=1')
+            link_asc['url'] = link_asc['url'].replace('?dl=0', '?dl=1')
             if p1.match(file):
                 osys, arch, lc = get_bundle_info(file, 'linux')
             elif p2.match(file):
@@ -140,11 +140,11 @@ if __name__ == '__main__':
             elif p3.match(file):
                 osys, arch, lc = get_bundle_info(file, 'osx')
 
-            link = "%s$%s$%s$" % (link_file[u'url'], link_asc[u'url'], sha_file)
+            link = "%s$%s$%s$" % (link_file['url'], link_asc['url'], sha_file)
 
             # note that you should only upload bundles for supported locales
             core.add_link('Dropbox', osys, lc, link)
     except (ValueError, RuntimeError) as e:
-        print str(e)
+        print(str(e))
     except dropbox.rest.ErrorResponse as e:
-        print str(e)
+        print(str(e))

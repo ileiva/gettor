@@ -10,7 +10,7 @@
 """create_gh_mirrors -- Create landing page and readme for Github."""
 
 import os
-import ConfigParser
+import configparser
 
 import github3
 
@@ -78,7 +78,7 @@ def create_readme(tpl_path, md_path, tb_version, links):
         content_md = content_md.replace("%TB_VERSION%", tb_version)
         md_file.write(content_md)
 
-    print "README generated with Tor Browser %s" % tb_version
+    print(("README generated with Tor Browser %s" % tb_version))
 
 
 def create_landing_html(tpl_path, html_path, tb_version, links):
@@ -111,7 +111,7 @@ def create_landing_html(tpl_path, html_path, tb_version, links):
             linux64_pkg, linux64_sig, linux64_sha = [
                 e for e in linux64_link.split("$") if e
             ]
-            
+
             content_html = content_html.replace(
                 "%WINDOWS_{}%".format(lc), win_pkg
             )
@@ -144,13 +144,13 @@ def create_landing_html(tpl_path, html_path, tb_version, links):
                 "%LINUX64_{}_SIG%".format(lc), linux64_sig
             )
             """
-        
+
         content_html = content_html.replace(
             "%TB_VERSION%", tb_version
         )
         html_file.write(content_html)
 
-    print "HTML generated with Tor Browser %s" % tb_version
+    print(("HTML generated with Tor Browser %s" % tb_version))
 
 
 def main():
@@ -163,11 +163,16 @@ def main():
     html_tpl_path = 'upload/landing_gh.tpl'
     github_access_token = ''
 
-    tb_version_config = ConfigParser.ConfigParser()
-    tb_version_config.read(tb_version_path)
-    tb_version = tb_version_config.get('version', 'current')
+    try:
+        tb_version_config = configparser.ConfigParser()
+        tb_version_config.read(tb_version_path)
+        tb_version = tb_version_config['version']['current']
 
-    links = ConfigParser.ConfigParser()
+    except:
+        raise SystemExit("Failed to parse %s. Does it exist?" % tb_version_path)
+        # TODO add some hint how to generate it
+
+    links = configparser.ConfigParser()
     links.read(github_links)
 
     create_landing_html(html_tpl_path, html_path, tb_version, links)
@@ -198,10 +203,10 @@ def main():
     }
 
     file_landing_gh.update(**data_landing)
-    print "Landing page updated in gettor"
+    print ("Landing page updated in gettor")
 
     file_readme_gh.update(**data_readme)
-    print "README updated in gettorbrowser"
+    print ("README updated in gettorbrowser")
 
 if __name__ == "__main__":
     main()

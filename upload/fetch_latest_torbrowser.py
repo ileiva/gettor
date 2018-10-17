@@ -12,10 +12,10 @@
 
 import os
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 import argparse
-import ConfigParser
+import configparser
 import shutil
 
 # this path should be relative to this script (or absolute)
@@ -77,14 +77,14 @@ def main():
 
     # find out the latest version
     url = 'https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions'
-    response = urllib2.urlopen(url)
+    response = urllib.request.urlopen(url)
     json_response = json.load(response)
     latest_version = json_response[0]
 
     # find out the current version delivered by GetTor
     config = ConfigParser.RawConfigParser()
     config.read('latest_torbrowser.cfg')
-    current_version = config.get('version', 'current')
+    current_version = config['version', 'current']
 
     if current_version != latest_version:
         mirror = '%s%s/' % (dist_tpo, latest_version)
@@ -111,7 +111,7 @@ def main():
         # in wget we trust
         cmd = 'wget %s --mirror %s' % (params, mirror)
 
-        print "Going to execute %s" % cmd
+        print("Going to execute %s" % cmd)
         # make the mirror
         # a folder with the value of 'latest_version' will be created
         os.system(cmd)
@@ -126,7 +126,7 @@ def main():
             os.system('python2.7 %s' % UPLOAD_SCRIPTS[provider])
 
         # if everything is OK, update the current version delivered by GetTor
-        config.set('version', 'current', latest_version)
+        config['version']['current'] = latest_version
         with open(r'latest_torbrowser.cfg', 'wb') as config_file:
             config.write(config_file)
 

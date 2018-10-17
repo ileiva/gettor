@@ -20,16 +20,16 @@ import gettext
 import logging
 import smtplib
 import datetime
-import ConfigParser
+import configparser
 
 from email import Encoders
 from email.MIMEBase import MIMEBase
 from email.mime.text import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 
-import core
-import utils
-import blacklist
+from . import core
+from . import utils
+from . import blacklist
 
 """SMTP module for processing email requests."""
 
@@ -79,7 +79,7 @@ class SMTP(object):
 
         """
         default_cfg = 'smtp.cfg'
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
 
         if cfg is None or not os.path.isfile(cfg):
             cfg = default_cfg
@@ -109,7 +109,7 @@ class SMTP(object):
             core_cfg = config.get('general', 'core_cfg')
             self.core = core.Core(core_cfg)
 
-        except ConfigParser.Error as e:
+        except configparser.Error as e:
             raise ConfigError("Configuration error: %s" % str(e))
         except blacklist.ConfigError as e:
             raise InternalError("Blacklist error: %s" % str(e))

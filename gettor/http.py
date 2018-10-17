@@ -14,13 +14,13 @@ import os
 import re
 import json
 import codecs
-import urllib2
-import ConfigParser
+import urllib.request, urllib.error, urllib.parse
+import configparser
 
 from time import gmtime, strftime
 
-import core
-import utils
+from . import core
+from . import utils
 
 """GetTor RESTful API"""
 
@@ -80,7 +80,7 @@ class HTTP(object):
 
         """
         default_cfg = 'http.cfg'
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
 
         if cfg is None or not os.path.isfile(cfg):
             cfg = default_cfg
@@ -93,16 +93,16 @@ class HTTP(object):
 
         try:
             # path to static tree of API
-            self.tree = config.get('general', 'tree')
+            self.tree = config['general']['tree']
             # server that provides the RESTful API
-            self.server = config.get('general', 'url')
+            self.server = config['general']['url']
             # path to the links files
-            self.links_path = config.get('general', 'links')
+            self.links_path = config['general']['links']
             # path to mirrors in json
-            self.mirrors_path = config.get('general', 'mirrors')
+            self.mirrors_path = config['general']['mirrors']
 
             # we will ask gettor.core for the links
-            core_cfg = config.get('general', 'core')
+            core_cfg = config['general']['core']
             self.core = core.Core(core_cfg)
 
         except ConfigParser.Error as e:
@@ -120,10 +120,10 @@ class HTTP(object):
         """
         try:
             json_object = json.loads(my_json)
-        except ValueError, e:
+        except ValueError as e:
             return False
         return True
-    
+
     def _write_json(self, path, content):
         """
         """
@@ -144,8 +144,8 @@ class HTTP(object):
                 )
         except IOError as e:
             #logging.error("Couldn't write json: %s" % str(e))
-            print "Error building %s: %s" % (path, str(e))
-        print "%s built" % path
+            print(("Error building %s: %s" % (path, str(e))))
+        print(("%s built" % path))
 
     def _get_provider_name(self, p):
         """ Return simplified version of provider's name.
@@ -202,7 +202,7 @@ class HTTP(object):
 
     def _load_latest_version(self):
         """ Load latest version data. """
-        response = urllib2.urlopen(URL['version'])
+        response = urllib.request.urlopen(URL['version'])
         json_response = json.load(response)
 
         lv = {
@@ -377,7 +377,7 @@ class HTTP(object):
     def build(self):
         """ Build RESTful API. """
         
-        print "Building API"
+        print ("Building API")
         
         # resources
         self._write_json(

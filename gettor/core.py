@@ -15,10 +15,10 @@ import re
 import logging
 import gettext
 import tempfile
-import ConfigParser
+import configparser
 
-import db
-import utils
+from . import db
+from . import utils
 
 """Core module for getting links from providers."""
 
@@ -65,7 +65,7 @@ class Core(object):
     """
 
     def __init__(self, cfg=None):
-    	"""Create a new core object by reading a configuration file.
+        """Create a new core object by reading a configuration file.
 
         :param: cfg (string) the path of the configuration file.
         :raise: ConfigurationError if the configuration file doesn't exists

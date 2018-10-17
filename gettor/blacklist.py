@@ -15,10 +15,10 @@ import time
 import logging
 import sqlite3
 import datetime
-import ConfigParser
+import configparser
 
-import db
-import utils
+from . import db
+from . import utils
 
 """Blacklist module for managing blacklisting of users."""
 
@@ -57,7 +57,7 @@ class Blacklist(object):
 
         """
         default_cfg = 'blacklist.cfg'
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
 
         if cfg is None or not os.path.isfile(cfg):
             cfg = default_cfg
@@ -75,7 +75,7 @@ class Blacklist(object):
             loglevel = config.get('log', 'level')
             self.db = db.DB(dbname)
 
-        except ConfigParser.Error as e:
+        except configparser.Error as e:
             raise ConfigError("%s" % e)
         except db.Exception as e:
             raise ConfigError("%s" % e)

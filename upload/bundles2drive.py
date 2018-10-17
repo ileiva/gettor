@@ -18,7 +18,7 @@ import gnupg
 import hashlib
 import logging
 import argparse
-import ConfigParser
+import configparser
 import gettor.core
 from gettor.utils import get_bundle_info, get_file_sha256, valid_format
 
@@ -86,28 +86,28 @@ def upload_files(client, basedir):
         body = {
             'title': file
         }
-        print "Uploading '%s'..." % file
+        print("Uploading '%s'..." % file)
         try:
             file_data = drive_service.files().insert(
                 body=body,
                 media_body=file_body
                 ).execute()
-        except errors.HttpError, e:
-            print str(e)
+        except errors.HttpError as e:
+            print(str(e))
 
         # upload signature
         asc_body = MediaFileUpload(abs_asc, resumable=True)
         asc_head = {
             'title': "%s.asc" % file
         }
-        print "Uploading '%s'..." % asc
+        print("Uploading '%s'..." % asc)
         try:
             asc_data = drive_service.files().insert(
                 body=asc_head,
                 media_body=asc_body
                 ).execute()
-        except errors.HttpError, e:
-            print str(e)
+        except errors.HttpError as e:
+            print(str(e))
 
         # add filenames and file id to dict
         files_dict[file] = file_data['id']
@@ -138,15 +138,15 @@ def share_file(service, file_id):
             fileId=file_id,
             body=permission
             ).execute()
-    except errors.HttpError, error:
-        print('An error occured while sharing: %s' % file_id)
+    except errors.HttpError as error:
+        print(('An error occured while sharing: %s' % file_id))
 
     try:
         file = service.files().get(fileId=file_id).execute()
-    except errors.HttpError, error:
-        print('Error occured while fetch public link for file: %s' % file_id)
+    except errors.HttpError as error:
+        print(('Error occured while fetch public link for file: %s' % file_id))
 
-    print "Uploaded %s to %s" % (file['title'], file['webContentLink'])
+    print("Uploaded %s to %s" % (file['title'], file['webContentLink']))
     return file['webContentLink']
 
 
@@ -165,7 +165,7 @@ def get_files_links(service, v):
     # dictionary to store file names and IDs
     files_dict = dict()
     
-    print "Trying to fetch links of uploaded files..."
+    print("Trying to fetch links of uploaded files...")
     links = service.files().list().execute()
     items = links.get('items', [])
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read('drive.cfg')
 
     client_id = config.get('app', 'client-id')
@@ -211,7 +211,7 @@ if __name__ == '__main__':
     OAUTH_SCOPE = 'https://www.googleapis.com/auth/drive'
     REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
-    print "Authenticating..."
+    print("Authenticating...")
 
     flow = OAuth2WebServerFlow(
         client_id,
@@ -226,12 +226,12 @@ if __name__ == '__main__':
         flow.params['access_type'] = 'offline'
         flow.params['approval_prompt'] = 'force'
         authorize_url = flow.step1_get_authorize_url()
-        print 'Go to the following link in your browser: ' + authorize_url
-        code = raw_input('Enter verification code: ').strip()
+        print('Go to the following link in your browser: ' + authorize_url)
+        code = input('Enter verification code: ').strip()
         try:
             credentials = flow.step2_exchange(code)
         except FlowExchangeError as e:
-            print str(e)
+            print(str(e))
 
         # oauth2 credentials instance must be stored as json string
         config.set('app', 'refresh_token', credentials.to_json())
@@ -256,7 +256,7 @@ if __name__ == '__main__':
 
     # make groups of four characters to make fingerprint more readable
     # e.g. 123A 456B 789C 012D 345E 678F 901G 234H 567I 890J
-    readable = ' '.join(fp[i:i+4] for i in xrange(0, len(fp), 4))
+    readable = ' '.join(fp[i:i+4] for i in range(0, len(fp), 4))
 
     try:
         # helpful when something fails but files are uploaded.
@@ -279,7 +279,7 @@ if __name__ == '__main__':
         p3 = re.compile('.*\.dmg$')
         p4 = re.compile('.*\.asc$')
 
-        for file in uploaded_files.keys():
+        for file in list(uploaded_files.keys()):
             # only run for tor browser installers
             if p4.match(file):
                 continue
@@ -312,4 +312,4 @@ if __name__ == '__main__':
             # note that you should only upload bundles for supported locales
             core.add_link('Drive', osys, lc, link)
     except (ValueError, RuntimeError) as e:
-        print str(e)
+        print(str(e))
