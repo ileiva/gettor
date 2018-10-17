@@ -14,8 +14,8 @@ import os
 import re
 import json
 import codecs
-import urllib2
-import ConfigParser
+import urllib.request, urllib.error, urllib.parse
+import configparser
 
 from time import gmtime, strftime
 
@@ -88,7 +88,7 @@ class APIMirror(object):
         """
         try:
             json_object = json.loads(my_json)
-        except ValueError, e:
+        except ValueError as e:
             return False
         return True
     
@@ -112,8 +112,8 @@ class APIMirror(object):
                 )
         except IOError as e:
             #logging.error("Couldn't write json: %s" % str(e))
-            print "Error building %s: %s" % (path, str(e))
-        print "%s built" % path
+            print("Error building %s: %s" % (path, str(e)))
+        print("%s built" % path)
 
     def _get_provider_name(self, p):
         """ Return simplified version of provider's name.
@@ -129,14 +129,14 @@ class APIMirror(object):
 
     def _load_latest_version(self):
         """ Load latest version data from GetTor API. """
-        response = urllib2.urlopen(URL['version'])
+        response = urllib.request.urlopen(URL['version'])
         json_response = json.load(response)
         self.lv = json_response
 
     def _load_links(self):
         """ Load links and providers data. """
 
-        response = urllib2.urlopen(URL['providers'])
+        response = urllib.request.urlopen(URL['providers'])
         json_response = json.load(response)
         
         links = {}
@@ -145,7 +145,7 @@ class APIMirror(object):
             if provider != 'updated_at':
                 provider_url = json_response[provider]
             
-                provider_response = urllib2.urlopen("%s.json" % provider_url)
+                provider_response = urllib.request.urlopen("%s.json" % provider_url)
                 provider_content = json.load(provider_response)
                 
                 json_response[provider] = provider_url.replace(
@@ -161,7 +161,7 @@ class APIMirror(object):
 
     def _load_mirrors(self):
         """ Load mirrors data from GetTor API. """
-        response = urllib2.urlopen(URL['mirrors'])
+        response = urllib.request.urlopen(URL['mirrors'])
         json_response = json.load(response)
         self.mirrors = json_response
 
@@ -185,7 +185,7 @@ class APIMirror(object):
     def build(self):
         """ Build RESTful API. """
         
-        print "Building API mirror"
+        print("Building API mirror")
         
         # resources
         self._write_json(

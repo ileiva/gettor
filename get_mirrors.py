@@ -137,7 +137,7 @@ def handle(failure):
     else:
         logging.error("Couldn't download file.")
 
-    print "Couldn't download file. Check the log."
+    print("Couldn't download file. Check the log.")
     os._exit(-1)
 
 
@@ -153,7 +153,7 @@ def is_json(my_json):
     """Check if json generated is valid."""
     try:
         json_object = json.loads(my_json)
-    except ValueError, e:
+    except ValueError as e:
         return False
     return True
 

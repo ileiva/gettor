@@ -54,7 +54,7 @@ def main():
         with con:
             cur = con.cursor()
             cur.execute(query)
-        print "Query execute successfully"
+        print("Query execute successfully")
     elif args.clean:
         if args.clean == 'c':
             if args.requests:
@@ -63,7 +63,7 @@ def main():
                 with con:
                     cur = con.cursor()
                     cur.execute(query)
-                print "Query executed successfully."
+                print("Query executed successfully.")
             else:
                 sys.exit("Number of requests missing. See --help.")
         else:
@@ -72,7 +72,7 @@ def main():
             with con:
                 cur = con.cursor()
                 cur.execute(query)
-            print "Query execute succcessfully."
+            print("Query execute succcessfully.")
     else:
         query = "SELECT * FROM users"
         has_where = False
@@ -98,14 +98,14 @@ def main():
             cur.execute(query)
             rows = cur.fetchall()
             # show it nice
-            print "\nNumber of results: %s\n" % len(rows)
+            print("\nNumber of results: %s\n" % len(rows))
             cns = [cn[0] for cn in cur.description]
-            print "%-70s %-10s %-10s %-10s %-s" % (cns[0], cns[1], cns[2],
-                                                   cns[3], cns[4])
+            print("%-70s %-10s %-10s %-10s %-s" % (cns[0], cns[1], cns[2],
+                                                   cns[3], cns[4]))
 
             for row in rows:
-                print "%-70s %-10s %-10s %-10s %s" % (row[0], row[1], row[2],
-                                                      row[3], row[4])
+                print("%-70s %-10s %-10s %-10s %s" % (row[0], row[1], row[2],
+                                                      row[3], row[4]))
 
 if __name__ == "__main__":
     main()

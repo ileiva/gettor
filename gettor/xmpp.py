@@ -17,15 +17,15 @@ import time
 import gettext
 import hashlib
 import logging
-import ConfigParser
+import configparser
 
 from sleekxmpp import ClientXMPP
 from sleekxmpp.xmlstream.stanzabase import JID
 from sleekxmpp.exceptions import IqError, IqTimeout
 
-import core
-import utils
-import blacklist
+from . import core
+from . import utils
+from . import blacklist
 
 
 """XMPP module for processing requests."""
@@ -104,7 +104,7 @@ class XMPP(object):
         """
         # define a set of default values
         default_cfg = 'xmpp.cfg'
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
 
         if cfg is None or not os.path.isfile(cfg):
             cfg = default_cfg
@@ -137,7 +137,7 @@ class XMPP(object):
             logfile = os.path.join(logdir, 'xmpp.log')
             loglevel = config.get('log', 'level')
 
-        except ConfigParser.Error as e:
+        except configparser.Error as e:
             raise ConfigError("Configuration error: %s" % str(e))
         except blacklist.ConfigError as e:
             raise InternalError("Blacklist error: %s" % str(e))

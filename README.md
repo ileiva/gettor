@@ -82,6 +82,10 @@ with gtalk users.
 *Twitter*: Receive requests via Twitter direct messages, contact the core module
 if necessary and respond to the user in the specified language. Unfinished.
 
+*Github*: Run `torsocks python3 create_gh_mirrors.py` to update the github
+archive at https://github.com/TheTorProject/gettor - it depends on the github3
+and urllib modules.
+
 *DB*: Store anonymous info about the people that interact with GetTor in order
 to keep count of the number of requests per person and avoid malicious users
 that try to collapse the service. It also keeps count of how many requests

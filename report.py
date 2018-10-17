@@ -15,7 +15,7 @@
 
 import os
 import sys
-import ConfigParser
+import configparser
 from datetime import datetime as dt
 
 import sqlite3
@@ -50,7 +50,7 @@ We received a total of {} requests in {}, with a peak of {} requests on {}.
 
 class Report(object):
     def __init__(self):
-        self.config = ConfigParser.ConfigParser()
+        self.config = configparser.ConfigParser()
         self.config.read(CORE_CFG)
 
         self.log_dir = self.config.get("log", "dir")

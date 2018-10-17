@@ -21,7 +21,7 @@ except ImportError:
 import os
 import sys
 import argparse
-import ConfigParser
+import configparser
 import gnupg
 
 import github3
@@ -48,7 +48,7 @@ def upload_new_release(github_repo, version, upload_dir):
     for filename in find_files_to_upload(upload_dir):
         # Upload each file for this release
         file_path = os.path.join(upload_dir, filename)
-        print("Uploading file {}".format(filename))
+        print(("Uploading file {}".format(filename)))
         release.upload_asset('application/zip',
                              filename, open(file_path, 'rb'))
 
@@ -69,12 +69,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read('github.cfg')
 
     tbb_version_path = config.get('general', 'version_cfg_path')
     
-    tbb_version_config = ConfigParser.ConfigParser()
+    tbb_version_config = configparser.ConfigParser()
     tbb_version_config.read(tbb_version_path)
     version = tbb_version_config.get('version', 'current')
 
@@ -105,14 +105,14 @@ if __name__ == '__main__':
 
     # make groups of four characters to make fingerprint more readable
     # e.g. 123A 456B 789C 012D 345E 678F 901G 234H 567I 890J
-    readable_fp = ' '.join(fp[i:i+4] for i in xrange(0, len(fp), 4))
+    readable_fp = ' '.join(fp[i:i+4] for i in range(0, len(fp), 4))
 
     # Find any published releases with this version number
     for release in target_repo.releases():
         if release.tag_name == 'v{}'.format(version) and not release.draft:
-            print("Found an existing published release with this version. "
+            print(("Found an existing published release with this version. "
                   "Not uploading again unless you delete the published "
-                  "release '{}'.".format(release.tag_name))
+                  "release '{}'.".format(release.tag_name)))
             break
     else:
         release = None
@@ -120,8 +120,8 @@ if __name__ == '__main__':
     if args.links or release:
         # Only generating link file, should use previously published release
         if not release:
-            print("Error occured! Could not find a published release for "
-                  "version {}".format(version))
+            print(("Error occured! Could not find a published release for "
+                  "version {}".format(version)))
             sys.exit(1)
 
     else:
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
         link = "{}${}${}$".format(url, url + ".asc", sha256)
 
-        print("Adding {}".format(url))
+        print(("Adding {}".format(url)))
         core.add_link('GitHub', osys, lc, link)
 
-    print "Github links updated!"
+    print("Github links updated!")
