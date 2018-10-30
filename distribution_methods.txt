@@ -2,18 +2,30 @@
 
 * SMTP: this one is ready and tested.
 
-* XMPP: this one is ready and tested. We'll probably deploy SMTP first, tough.
-
 ================================== IN DEVELOPMENT =============================
+
+* XMPP: the bot needs to be fixed (#23072) and should provide OTR (#18750)
+  and OMEMO (#28092).
 
 * Twitter: This one is half done. I forked a twitter bot from wfn's gsoc work
 on BridgeDB, but I got confused with some Twitter policies. I thought that the
 bot *had* to follow someone back to send him/her DMs, but it turns out that you
 just need to be followed, not follow back (thanks to mrphs for pointing out
-this).
+this). See #20116 and #27330.
 
 ================================== (CRAZY) IDEAS ==============================
+
+See the parent #28231.
 
 * Duckduckgo: This is just a thought, I haven't done proper research. What if
 someone could ask for gettor links like this: "!gettor"?
 
+* bitmessage (#19951)
+
+* Tox (#19952)
+
+* Facebook (#21382)
+
+* Telegram (#22011)
+
+* Archive.org (#22665)
