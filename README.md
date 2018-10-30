@@ -31,7 +31,7 @@ Here is a list of the main goals the new GetTor should accomplish:
  and to add new providers for storing packages and generate links.
 
 
-How does the new GetTor works?
+How does the new GetTor work?
 ==============================
 
 Below are some specifications and core concepts on how the new GetTor works.
@@ -105,7 +105,7 @@ links files. The script should consider the following steps:
 What is the current status of the new GetTor?
 =============================================
 
-Deployed and working.
+Deployed and working. #28232 is the parent for current development.
 
 
 How can I help?
@@ -119,16 +119,16 @@ should use the trac[0] and select the GetTor component. Some neat ideas we
 could use are the following:
 
  * Report bugs!
- * Create script for new providers, namely: Google Drive, Github. Check 
-providers.txt
+ * Create scripts for new providers (see providers.txt)
  * Create a new module for distributing links. Check distribution_methods.txt
- * Finish the Twitter module.
- * Propose code/behaviour improvements.
- * Update the specs.
-
+ * Improve the messages (#9036) and translate them (#28233).
+ * Propose code/behaviour improvements (#28152).
+ * Update the spec (#3781).
+ * Implement encryption (#13878).
+ * Make log messages more useful (#17588).
 
 References
 ===========
 
-[0] https://trac.torproject.org/projects/tor/query?status=accepted&status=assigned&status=needs_information&status=needs_review&status=needs_revision&status=new&status=reopened&component=GetTor&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority
+[0] https://trac.torproject.org/projects/tor/query?status=!closed&component=Applications/GetTor
 

@@ -1,13 +1,18 @@
 ================================== CURRENT ====================================
 
-* Dropbox: Implemented.
-* Google Drive: Implemented.
+* Dropbox: Implemented. Needs 2fa, see #10692.
+* Google Drive: Implemented. Needs 2fa, see #10692.
+* Github: Implemented.
 
 ============================= TO BE IMPLEMENTED ===============================
 
 
 ================================== IDEAS  =====================================
 
-* Github: it is known that one can download tarballs from Github. Maybe we can
-have an official gettor account and a folder synchronized with dist.tp.o.
+See the parent #8542.
 
+* torrents (#9071)
+
+* OneDrive (#25887)
+
+* IPFS (#27972)
