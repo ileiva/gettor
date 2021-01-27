@@ -31,7 +31,7 @@ Here is a list of the main goals the new GetTor should accomplish:
  and to add new providers for storing packages and generate links.
 
 
-How does the new GetTor works?
+How does the new GetTor work?
 ==============================
 
 Below are some specifications and core concepts on how the new GetTor works.
